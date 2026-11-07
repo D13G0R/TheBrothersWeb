@@ -6,6 +6,7 @@
     currentProduct: null,
     selectedFlavors: [],
     flavorMode: 1,
+    crustSelected: false,
   };
 
   const els = {
@@ -27,6 +28,13 @@
     modalSubtotal: document.getElementById('modal-subtotal'),
     modalExtraLine: document.getElementById('modal-extra-line'),
     modalExtra: document.getElementById('modal-extra'),
+    modalCrustLine: document.getElementById('modal-crust-line'),
+    modalCrustLinePrice: document.getElementById('modal-crust-line-price'),
+    modalFlavorInfo: document.getElementById('modal-flavor-info'),
+    modalCrustGroup: document.getElementById('modal-crust-group'),
+    modalCrustToggle: document.getElementById('modal-crust-toggle'),
+    modalCrustName: document.getElementById('modal-crust-name'),
+    modalCrustPrice: document.getElementById('modal-crust-price'),
     cartDrawer: document.getElementById('cart-drawer'),
     cartClose: document.getElementById('cart-close'),
     cartItems: document.getElementById('cart-items'),
@@ -88,6 +96,7 @@
 
     state.currentProduct = product;
     state.flavorMode = 1;
+    state.crustSelected = false;
     state.selectedFlavors = product.flavors && product.flavors.length ? [product.flavors[0]] : [];
 
     els.modalName.textContent = product.name;
@@ -101,6 +110,16 @@
       renderFlavors(product.flavors);
     } else {
       els.modalOptions.style.display = 'none';
+    }
+
+    if (product.crust) {
+      els.modalCrustGroup.style.display = 'block';
+      els.modalCrustName.textContent = product.crust.name;
+      els.modalCrustPrice.textContent = `+${formatPrice(product.crust.price)}`;
+      els.modalCrustToggle.classList.remove('crust-toggle--active');
+      els.modalCrustToggle.setAttribute('aria-pressed', 'false');
+    } else {
+      els.modalCrustGroup.style.display = 'none';
     }
 
     updateModalSubtotal();
@@ -137,9 +156,30 @@
         flavor.extra > 0 ? `<span class="chip-extra">+${formatPrice(flavor.extra)}</span>` : ''
       }`;
       chip.addEventListener('click', () => toggleFlavor(flavor));
+      chip.addEventListener('mouseenter', () => renderFlavorInfo(flavor));
+      chip.addEventListener('mouseleave', () => renderFlavorInfo());
+      chip.addEventListener('focus', () => renderFlavorInfo(flavor));
+      chip.addEventListener('blur', () => renderFlavorInfo());
       els.modalFlavors.appendChild(chip);
     });
     updateFlavorHint();
+    renderFlavorInfo();
+  }
+
+  function renderFlavorInfo(preview) {
+    if (!els.modalFlavorInfo) return;
+    const list = preview ? [preview] : state.selectedFlavors;
+    if (!list.length) {
+      els.modalFlavorInfo.innerHTML = '<span class="flavor-info-empty">Toca un sabor para ver sus ingredientes.</span>';
+      return;
+    }
+    const halfLabels = state.flavorMode === 2 && !preview && list.length > 1;
+    els.modalFlavorInfo.innerHTML = list
+      .map((f, i) => {
+        const label = halfLabels ? `Mitad ${i + 1}: ${f.name}` : f.name;
+        return `<div class="flavor-info-item"><strong>${label}</strong><span>${f.desc || 'Ingredientes no disponibles'}</span></div>`;
+      })
+      .join('');
   }
 
   function toggleFlavor(flavor) {
@@ -174,12 +214,17 @@
   function updateModalSubtotal() {
     const p = state.currentProduct;
     if (!p) return;
-    const extra = state.selectedFlavors.reduce((sum, f) => sum + (f.extra || 0), 0);
-    els.modalSubtotal.textContent = formatPrice(p.basePrice + extra);
+    const flavorExtra = state.selectedFlavors.reduce((sum, f) => sum + (f.extra || 0), 0);
+    const crustPrice = state.crustSelected && p.crust ? p.crust.price : 0;
+    els.modalSubtotal.textContent = formatPrice(p.basePrice + flavorExtra + crustPrice);
 
     if (els.modalExtraLine) {
-      els.modalExtraLine.style.display = extra > 0 ? 'flex' : 'none';
-      els.modalExtra.textContent = `+${formatPrice(extra)}`;
+      els.modalExtraLine.style.display = flavorExtra > 0 ? 'flex' : 'none';
+      els.modalExtra.textContent = `+${formatPrice(flavorExtra)}`;
+    }
+    if (els.modalCrustLine) {
+      els.modalCrustLine.style.display = crustPrice > 0 ? 'flex' : 'none';
+      els.modalCrustLinePrice.textContent = `+${formatPrice(crustPrice)}`;
     }
     updateAddButton();
   }
@@ -195,10 +240,19 @@
     state.currentProduct = null;
     state.selectedFlavors = [];
     state.flavorMode = 1;
+    state.crustSelected = false;
   }
 
   els.modalFlavorMode.querySelectorAll('.mode-btn').forEach((btn) => {
     btn.addEventListener('click', () => setFlavorMode(Number(btn.dataset.mode)));
+  });
+
+  els.modalCrustToggle.addEventListener('click', () => {
+    if (!state.currentProduct || !state.currentProduct.crust) return;
+    state.crustSelected = !state.crustSelected;
+    els.modalCrustToggle.classList.toggle('crust-toggle--active', state.crustSelected);
+    els.modalCrustToggle.setAttribute('aria-pressed', state.crustSelected ? 'true' : 'false');
+    updateModalSubtotal();
   });
 
   els.modalClose.addEventListener('click', closeModal);
@@ -214,7 +268,8 @@
 
     const flavorExtra = state.selectedFlavors.reduce((sum, f) => sum + (f.extra || 0), 0);
     const flavorNames = state.selectedFlavors.map((f) => f.name);
-    const total = p.basePrice + flavorExtra;
+    const crust = state.crustSelected && p.crust ? p.crust : null;
+    const total = p.basePrice + flavorExtra + (crust ? crust.price : 0);
 
     const item = {
       id: `${p.id}-${Date.now()}`,
@@ -225,6 +280,7 @@
       flavors: flavorNames,
       flavor: flavorNames.join(' / '),
       flavorExtra,
+      crust,
       qty: 1,
       unitPrice: total,
     };
@@ -266,6 +322,7 @@
             <div class="cart-item-details">
               ${flavorText ? `Sabor: ${flavorText}` : ''}
               ${item.flavorExtra > 0 ? ` · Recargo +${formatPrice(item.flavorExtra)}` : ''}
+              ${item.crust ? ` · ${item.crust.name} +${formatPrice(item.crust.price)}` : ''}
             </div>
             <span class="cart-item-price">${formatPrice(item.unitPrice)} c/u</span>
             <div class="cart-item-qty">
@@ -326,7 +383,7 @@
     const resumen = state.cart
       .map((i) => {
         const ft = i.flavors && i.flavors.length ? i.flavors.join(' / ') : (i.flavor || '');
-        return `${i.qty}× ${i.name}${ft ? ' - ' + ft : ''}${i.flavorExtra > 0 ? ` (+${formatPrice(i.flavorExtra)})` : ''}`;
+        return `${i.qty}× ${i.name}${ft ? ' - ' + ft : ''}${i.flavorExtra > 0 ? ` (+${formatPrice(i.flavorExtra)})` : ''}${i.crust ? ` + ${i.crust.name}` : ''}`;
       })
       .join('\n');
     const total = state.cart.reduce((s, i) => s + i.unitPrice * i.qty, 0);
@@ -353,6 +410,13 @@
   document.querySelector('.nav-link--cart').addEventListener('click', (e) => {
     e.preventDefault();
     openCart();
+  });
+
+  document.querySelectorAll('[data-open-cart]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCart();
+    });
   });
 
   els.navLinks.forEach((link) => {

@@ -632,6 +632,118 @@ ul { list-style: none; }
 
 .flavor-note strong { color: var(--color-red); }
 
+.option-group + .option-group { margin-top: 1.15rem; }
+
+.flavor-info {
+  margin-top: 0.85rem;
+  background: #FFF6F4;
+  border: 1px solid rgba(192, 57, 43, 0.25);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  min-height: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.flavor-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.flavor-info-item strong {
+  font-size: 0.82rem;
+  color: var(--color-red);
+  font-weight: 800;
+}
+
+.flavor-info-item span {
+  font-size: 0.82rem;
+  color: #495057;
+  line-height: 1.45;
+}
+
+.flavor-info-empty {
+  font-size: 0.8rem;
+  color: var(--color-gray);
+  font-style: italic;
+  align-self: center;
+}
+
+.crust-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-white);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.crust-toggle:hover { border-color: var(--color-red); }
+
+.crust-toggle--active {
+  border-color: var(--color-red);
+  background: rgba(192, 57, 43, 0.06);
+}
+
+.crust-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+}
+
+.crust-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+}
+
+.crust-desc {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+}
+
+.crust-price {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-red);
+  white-space: nowrap;
+}
+
+.crust-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+  position: relative;
+  transition: all var(--transition);
+}
+
+.crust-toggle--active .crust-check {
+  background: var(--color-red);
+  border-color: var(--color-red);
+}
+
+.crust-toggle--active .crust-check::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
 .size-options, .flavor-options {
   display: flex;
   flex-wrap: wrap;
