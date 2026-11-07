@@ -574,11 +574,63 @@ ul { list-style: none; }
   display: block;
 }
 
-.flavor-hint {
-  font-size: 0.8rem;
-  color: var(--color-gray);
-  margin-top: 0.5rem;
+.flavor-mode {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
 }
+
+.mode-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.6rem 0.8rem;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-white);
+  color: #495057;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.mode-btn span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-gray);
+}
+
+.mode-btn:hover { border-color: var(--color-red); }
+
+.mode-btn--active {
+  border-color: var(--color-red);
+  background: rgba(192, 57, 43, 0.08);
+  color: var(--color-red);
+}
+
+.mode-btn--active span { color: var(--color-red); }
+
+.flavor-hint {
+  font-size: 0.82rem;
+  color: var(--color-gray);
+  margin-bottom: 0.7rem;
+  min-height: 1.2em;
+  font-weight: 600;
+}
+
+.flavor-note {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  margin-top: 0.7rem;
+  line-height: 1.45;
+}
+
+.flavor-note strong { color: var(--color-red); }
 
 .size-options, .flavor-options {
   display: flex;
@@ -587,6 +639,9 @@ ul { list-style: none; }
 }
 
 .option-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.5rem 0.9rem;
   border: 2px solid var(--color-border);
   border-radius: 20px;
@@ -609,20 +664,18 @@ ul { list-style: none; }
   box-shadow: 0 4px 0 var(--color-red-dark);
 }
 
-.option-chip--price {
-  position: relative;
-  padding-left: 2.2rem;
+.chip-extra {
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: rgba(192, 57, 43, 0.12);
+  color: var(--color-red);
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
 }
 
-.option-chip--price::before {
-  content: '+';
-  position: absolute;
-  left: 0.55rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  color: var(--color-red);
-  font-weight: 900;
+.option-chip--selected .chip-extra {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
 }
 
 .modal-summary {
@@ -640,6 +693,24 @@ ul { list-style: none; }
 }
 
 .summary-value { color: var(--color-red); }
+
+.summary-line--extra {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-gray);
+  margin-bottom: 0.35rem;
+}
+
+.summary-line--extra .summary-value { color: var(--color-red); }
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
 
 .modal-actions {
   display: flex;

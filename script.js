@@ -4,7 +4,8 @@
   let state = {
     cart: [],
     currentProduct: null,
-    selectedFlavor: null,
+    selectedFlavors: [],
+    flavorMode: 1,
   };
 
   const els = {
@@ -21,7 +22,11 @@
     modalThumb: document.getElementById('modal-thumb'),
     modalOptions: document.getElementById('modal-options'),
     modalFlavors: document.getElementById('modal-flavors'),
+    modalFlavorMode: document.getElementById('modal-flavor-mode'),
+    modalFlavorHint: document.getElementById('modal-flavor-hint'),
     modalSubtotal: document.getElementById('modal-subtotal'),
+    modalExtraLine: document.getElementById('modal-extra-line'),
+    modalExtra: document.getElementById('modal-extra'),
     cartDrawer: document.getElementById('cart-drawer'),
     cartClose: document.getElementById('cart-close'),
     cartItems: document.getElementById('cart-items'),
@@ -82,7 +87,8 @@
     if (!product) return;
 
     state.currentProduct = product;
-    state.selectedFlavor = product.flavors[0] || null;
+    state.flavorMode = 1;
+    state.selectedFlavors = product.flavors && product.flavors.length ? [product.flavors[0]] : [];
 
     els.modalName.textContent = product.name;
     els.modalDesc.textContent = product.description;
@@ -91,6 +97,7 @@
 
     if (product.flavors && product.flavors.length > 0) {
       els.modalOptions.style.display = 'block';
+      renderFlavorMode();
       renderFlavors(product.flavors);
     } else {
       els.modalOptions.style.display = 'none';
@@ -100,27 +107,81 @@
     openModal();
   }
 
+  function renderFlavorMode() {
+    els.modalFlavorMode.querySelectorAll('.mode-btn').forEach((btn) => {
+      const active = Number(btn.dataset.mode) === state.flavorMode;
+      btn.classList.toggle('mode-btn--active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  function updateFlavorHint() {
+    if (state.flavorMode === 1) {
+      els.modalFlavorHint.textContent = 'Elige 1 sabor para toda la pizza.';
+      return;
+    }
+    const names = state.selectedFlavors.map((f) => f.name);
+    const half1 = names[0] ? `Mitad 1: ${names[0]}` : 'Mitad 1: —';
+    const half2 = names[1] ? `Mitad 2: ${names[1]}` : 'Mitad 2: elige la otra mitad';
+    els.modalFlavorHint.textContent = `${half1}  ·  ${half2}`;
+  }
+
   function renderFlavors(flavors) {
     els.modalFlavors.innerHTML = '';
     flavors.forEach((flavor) => {
-      const isSelected = state.selectedFlavor && state.selectedFlavor.name === flavor.name;
+      const isSelected = state.selectedFlavors.some((f) => f.name === flavor.name);
       const chip = document.createElement('button');
-      chip.className = `option-chip ${isSelected ? 'option-chip--selected' : ''} ${flavor.extra > 0 ? 'option-chip--price' : ''}`;
-      chip.textContent = flavor.name + (flavor.extra > 0 ? ` (+${formatPrice(flavor.extra)})` : '');
-      chip.addEventListener('click', () => {
-        state.selectedFlavor = flavor;
-        renderFlavors(flavors);
-        updateModalSubtotal();
-      });
+      chip.type = 'button';
+      chip.className = `option-chip ${isSelected ? 'option-chip--selected' : ''}`;
+      chip.innerHTML = `<span class="chip-name">${flavor.name}</span>${
+        flavor.extra > 0 ? `<span class="chip-extra">+${formatPrice(flavor.extra)}</span>` : ''
+      }`;
+      chip.addEventListener('click', () => toggleFlavor(flavor));
       els.modalFlavors.appendChild(chip);
     });
+    updateFlavorHint();
+  }
+
+  function toggleFlavor(flavor) {
+    const idx = state.selectedFlavors.findIndex((f) => f.name === flavor.name);
+    if (state.flavorMode === 1) {
+      state.selectedFlavors = [flavor];
+    } else if (idx >= 0) {
+      state.selectedFlavors.splice(idx, 1);
+    } else {
+      if (state.selectedFlavors.length >= 2) state.selectedFlavors.shift();
+      state.selectedFlavors.push(flavor);
+    }
+    renderFlavors(state.currentProduct.flavors);
+    updateModalSubtotal();
+  }
+
+  function setFlavorMode(mode) {
+    if (!state.currentProduct) return;
+    state.flavorMode = mode;
+    if (mode === 1) state.selectedFlavors = state.selectedFlavors.slice(0, 1);
+    renderFlavorMode();
+    renderFlavors(state.currentProduct.flavors);
+    updateModalSubtotal();
+  }
+
+  function updateAddButton() {
+    const valid = state.flavorMode !== 2 || state.selectedFlavors.length === 2;
+    els.modalAdd.disabled = !valid;
+    els.modalAdd.classList.toggle('btn--disabled', !valid);
   }
 
   function updateModalSubtotal() {
     const p = state.currentProduct;
-    let total = p.basePrice;
-    if (state.selectedFlavor) total += state.selectedFlavor.extra || 0;
-    els.modalSubtotal.textContent = formatPrice(total);
+    if (!p) return;
+    const extra = state.selectedFlavors.reduce((sum, f) => sum + (f.extra || 0), 0);
+    els.modalSubtotal.textContent = formatPrice(p.basePrice + extra);
+
+    if (els.modalExtraLine) {
+      els.modalExtraLine.style.display = extra > 0 ? 'flex' : 'none';
+      els.modalExtra.textContent = `+${formatPrice(extra)}`;
+    }
+    updateAddButton();
   }
 
   function openModal() {
@@ -132,8 +193,13 @@
     els.modalOverlay.classList.remove('open');
     document.body.style.overflow = '';
     state.currentProduct = null;
-    state.selectedFlavor = null;
+    state.selectedFlavors = [];
+    state.flavorMode = 1;
   }
+
+  els.modalFlavorMode.querySelectorAll('.mode-btn').forEach((btn) => {
+    btn.addEventListener('click', () => setFlavorMode(Number(btn.dataset.mode)));
+  });
 
   els.modalClose.addEventListener('click', closeModal);
   els.modalCancel.addEventListener('click', closeModal);
@@ -143,8 +209,12 @@
 
   els.modalAdd.addEventListener('click', () => {
     const p = state.currentProduct;
-    const flavor = state.selectedFlavor || { name: '', extra: 0 };
-    let total = p.basePrice + (flavor.extra || 0);
+    if (!p) return;
+    if (state.flavorMode === 2 && state.selectedFlavors.length !== 2) return;
+
+    const flavorExtra = state.selectedFlavors.reduce((sum, f) => sum + (f.extra || 0), 0);
+    const flavorNames = state.selectedFlavors.map((f) => f.name);
+    const total = p.basePrice + flavorExtra;
 
     const item = {
       id: `${p.id}-${Date.now()}`,
@@ -152,8 +222,9 @@
       name: p.name,
       image: p.image,
       category: p.category || 'pizzas',
-      flavor: flavor.name,
-      flavorExtra: flavor.extra || 0,
+      flavors: flavorNames,
+      flavor: flavorNames.join(' / '),
+      flavorExtra,
       qty: 1,
       unitPrice: total,
     };
@@ -185,6 +256,7 @@
     } else {
       state.cart.forEach((item) => {
         subtotal += item.unitPrice * item.qty;
+        const flavorText = item.flavors && item.flavors.length ? item.flavors.join(' / ') : (item.flavor || '');
         const el = document.createElement('div');
         el.className = 'cart-item';
         el.innerHTML = `
@@ -192,8 +264,8 @@
           <div class="cart-item-info">
             <span class="cart-item-name">${item.name}</span>
             <div class="cart-item-details">
-              ${item.flavor ? `Sabor: ${item.flavor}` : ''}
-              ${item.flavorExtra > 0 ? ` +${formatPrice(item.flavorExtra)}` : ''}
+              ${flavorText ? `Sabor: ${flavorText}` : ''}
+              ${item.flavorExtra > 0 ? ` · Recargo +${formatPrice(item.flavorExtra)}` : ''}
             </div>
             <span class="cart-item-price">${formatPrice(item.unitPrice)} c/u</span>
             <div class="cart-item-qty">
@@ -252,7 +324,10 @@
       return;
     }
     const resumen = state.cart
-      .map((i) => `${i.qty}× ${i.name}${i.flavor ? ' - ' + i.flavor : ''}`)
+      .map((i) => {
+        const ft = i.flavors && i.flavors.length ? i.flavors.join(' / ') : (i.flavor || '');
+        return `${i.qty}× ${i.name}${ft ? ' - ' + ft : ''}${i.flavorExtra > 0 ? ` (+${formatPrice(i.flavorExtra)})` : ''}`;
+      })
       .join('\n');
     const total = state.cart.reduce((s, i) => s + i.unitPrice * i.qty, 0);
     const mensaje = `🍕 Pedido The Brothers Pizza\n\n${resumen}\n\nTotal: ${formatPrice(total)}\n\nPor favor confirmar disponibilidad y domicilio.`;

@@ -112,13 +112,22 @@
 
         <div class="modal-options" id="modal-options">
           <div class="option-group">
-            <label class="option-group-title">Sabor</label>
+            <label class="option-group-title">¿Cuántos sabores?</label>
+            <div class="flavor-mode" id="modal-flavor-mode" role="group" aria-label="Cantidad de sabores">
+              <button type="button" class="mode-btn mode-btn--active" data-mode="1">1 sabor<span>Toda la pizza</span></button>
+              <button type="button" class="mode-btn" data-mode="2">2 sabores<span>Mitad y mitad</span></button>
+            </div>
+            <p class="flavor-hint" id="modal-flavor-hint"></p>
             <div class="flavor-options" id="modal-flavors"></div>
-            <p class="flavor-hint">Un sabor por pizza · Algunos sabores tienen recargo</p>
+            <p class="flavor-note">Los sabores con <strong>+$3.000</strong> suman <strong>$3.000</strong> cada uno al precio final.</p>
           </div>
         </div>
 
         <div class="modal-summary">
+          <div class="summary-line summary-line--extra" id="modal-extra-line">
+            <span>Recargo por sabor(es):</span>
+            <span class="summary-value" id="modal-extra">$0</span>
+          </div>
           <div class="summary-line">
             <span>Subtotal:</span>
             <span class="summary-value" id="modal-subtotal">$0</span>
