@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Brothers Pizza - Pedidos Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="The Brothers Pizza">
+        <img src="figma-images/logo-astronaut.jpeg" alt="The Brothers Pizza" class="logo-img">
+        <span class="logo-text">The Brothers<br>Pizza</span>
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+          <li><a href="#menu" class="nav-link">Menú</a></li>
+          <li><a href="#sedes" class="nav-link">Sedes</a></li>
+          <li><a href="#carrito" class="nav-link nav-link--cart" aria-label="Carrito de compras">
+            Pedido <span class="cart-count" id="cart-count">0</span>
+          </a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="https://api.whatsapp.com/send?phone=573100000000&text=Hola" target="_blank" rel="noopener" class="btn btn--red btn--sm">WhatsApp</a>
+        <button class="btn-toggle-menu" id="toggle-menu" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero / Landing -->
+  <section class="hero" id="inicio">
+    <div class="hero-content container">
+      <div class="hero-text">
+        <span class="hero-eyebrow">Pizzería artesanal · Bello, Antioquia</span>
+        <h1 class="hero-title">Sabor <span class="hero-accent">espacial</span>,<br>entrega a la Tierra</h1>
+        <p class="hero-sub">Pizza hecha a mano con ingredientes frescos. Elige tu sabor y pide a domicilio en minutos.</p>
+        <div class="hero-cta">
+          <a href="#menu" class="btn btn--red btn--lg">Ver Menú</a>
+          <a href="#carrito" class="btn btn--outline btn--lg">Ver Pedido</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-glow"></div>
+        <img src="figma-images/logo-astronaut.jpeg" alt="The Brothers Pizza - Astronauta" class="hero-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Sedes -->
+  <section class="sedes" id="sedes">
+    <div class="container">
+      <h2 class="section-title">Nuestras Sedes</h2>
+      <div class="sedes-grid">
+        <article class="sede-card">
+          <h3 class="sede-name">La Cumbre</h3>
+          <p class="sede-phone">287 0326</p>
+          <p class="sede-phone">314 719 5796</p>
+        </article>
+        <article class="sede-card">
+          <h3 class="sede-name">Cabañas</h3>
+          <p class="sede-phone">495 1917</p>
+          <p class="sede-phone">304 586 0138</p>
+        </article>
+      </div>
+      <div class="social-section">
+        <p class="social-label">Síguenos</p>
+        <a href="https://www.instagram.com/thebrotherspizza_/?hl=en" target="_blank" rel="noopener" class="social-link">@TheBrothersPizza_</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menú / Pedido -->
+  <section class="menu" id="menu">
+    <div class="container">
+      <h2 class="section-title">Menú</h2>
+      <div class="category-tabs" role="tablist" aria-label="Categorías">
+        <button class="tab-btn tab-btn--active" data-cat="pizzas" role="tab" aria-selected="true">Pizzas</button>
+        <button class="tab-btn" data-cat="platos" role="tab" aria-selected="false">Platos de la nave</button>
+        <button class="tab-btn" data-cat="bebidas" role="tab" aria-selected="false">Bebidas</button>
+        <button class="tab-btn" data-cat="todo" role="tab" aria-selected="false">Todo</button>
+      </div>
+
+      <div class="products-grid" id="products-grid"></div>
+    </div>
+  </section>
+
+  <!-- Modal de personalización de pizza -->
+  <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+    <div class="modal" id="product-modal" role="dialog" aria-modal="true" aria-label="Personalizar producto">
+      <button class="modal-close" id="modal-close" aria-label="Cerrar">&times;</button>
+      <div class="modal-body">
+        <div class="modal-header">
+          <div class="product-thumb" id="modal-thumb"></div>
+          <div class="product-info">
+            <h3 class="product-modal-name" id="modal-name"></h3>
+            <p class="product-modal-desc" id="modal-desc"></p>
+            <div class="product-modal-price" id="modal-price"></div>
+          </div>
+        </div>
+
+        <div class="modal-options" id="modal-options">
+          <div class="option-group">
+            <label class="option-group-title">Sabor</label>
+            <div class="flavor-options" id="modal-flavors"></div>
+            <p class="flavor-hint">Un sabor por pizza · Algunos sabores tienen recargo</p>
+          </div>
+        </div>
+
+        <div class="modal-summary">
+          <div class="summary-line">
+            <span>Subtotal:</span>
+            <span class="summary-value" id="modal-subtotal">$0</span>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn--outline btn--full" id="modal-cancel-btn">Cancelar</button>
+          <button class="btn btn--red btn--full btn--lg" id="modal-add-btn">Agregar al Pedido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrito / Pedido -->
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer-inner">
+      <div class="cart-drawer-header">
+        <h3>Tu Pedido</h3>
+        <button class="cart-close" id="cart-close" aria-label="Cerrar pedido">&times;</button>
+      </div>
+
+      <div class="cart-items" id="cart-items"></div>
+
+      <div class="cart-footer">
+        <div class="cart-totals">
+          <div class="totals-line">
+            <span>Subtotal</span>
+            <span id="cart-subtotal">$0</span>
+          </div>
+          <div class="totals-line totals-line--total">
+            <span>Total</span>
+            <span id="cart-total">$0</span>
+          </div>
+        </div>
+        <div class="cart-actions">
+          <button class="btn btn--outline btn--full" id="cart-clear">Vaciar</button>
+          <button class="btn btn--red btn--full btn--lg" id="cart-checkout">Simular Pedido</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="figma-images/logo-main.jpg" alt="The Brothers Pizza" class="footer-logo">
+      </div>
+      <div class="footer-contact">
+        <p><strong>La Cumbre:</strong> 287 0326 · 314 719 5796</p>
+        <p><strong>Cabañas:</strong> 495 1917 · 304 586 0138</p>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/thebrotherspizza_/?hl=en" target="_blank" rel="noopener" class="footer-social-link">@TheBrothersPizza_</a>
+      </div>
+      <p class="footer-legal">Prototipo visual navegable · The Brothers Pizza · Bello, Antioquia, Colombia</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
