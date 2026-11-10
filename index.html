@@ -3,208 +3,391 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Brothers Pizza - Pedidos Online</title>
+  <title>The Brothers Pizza — Pizza de otro planeta | Bello, Antioquia</title>
+  <meta name="description" content="Pizza hecha a mano en Bello, Antioquia. 17 sabores, 4 tamaños y 3 bases. Conoce el negocio y pide en nuestra carta online.">
+  <meta name="theme-color" content="#141414">
+  <meta property="og:title" content="The Brothers Pizza — Pizza de otro planeta">
+  <meta property="og:description" content="17 sabores, 4 tamaños y 3 bases en Bello, Antioquia. Pide en nuestra carta online.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="figma-images/logo-astronaut.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.thebrotherspizza.com.co">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header" id="header">
-    <div class="container header-inner">
-      <a href="#" class="logo" aria-label="The Brothers Pizza">
-        <img src="figma-images/logo-astronaut.jpeg" alt="The Brothers Pizza" class="logo-img">
-        <span class="logo-text">The Brothers<br>Pizza</span>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <header class="site-header" id="site-header">
+    <div class="container header__inner">
+      <a href="index.html" class="brand" aria-label="The Brothers Pizza, inicio">
+        <span class="brand__mark">
+          <img src="figma-images/logo-astronaut.jpeg" alt="" width="48" height="48">
+        </span>
+        <span class="brand__text"><span>THE BROTHERS</span><span>PIZZA</span></span>
       </a>
 
-      <nav class="nav" id="nav">
-        <ul class="nav-list">
-          <li><a href="#inicio" class="nav-link active">Inicio</a></li>
-          <li><a href="#menu" class="nav-link">Menú</a></li>
-          <li><a href="#sedes" class="nav-link">Sedes</a></li>
-          <li><a href="#carrito" class="nav-link nav-link--cart" aria-label="Carrito de compras">
-            Pedido <span class="cart-count" id="cart-count">0</span>
-          </a></li>
-        </ul>
+      <nav class="nav" id="nav" aria-label="Navegación principal">
+        <a href="#mision" class="nav__link"><span class="nav__num">01</span>Misión</a>
+        <a href="#que-vendemos" class="nav__link"><span class="nav__num">02</span>Qué vendemos</a>
+        <a href="#bases" class="nav__link"><span class="nav__num">03</span>Bases</a>
+        <a href="#comunidad" class="nav__link"><span class="nav__num">04</span>Comunidad</a>
       </nav>
 
-      <div class="header-actions">
-        <a href="https://api.whatsapp.com/send?phone=573100000000&text=Hola" target="_blank" rel="noopener" class="btn btn--red btn--sm">WhatsApp</a>
-        <button class="btn-toggle-menu" id="toggle-menu" aria-label="Abrir menú" aria-expanded="false">
-          <span></span><span></span><span></span>
+      <div class="header__actions">
+        <a class="btn btn--red btn--sm header__cta" href="pedido.html">
+          Pedir
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+          <span></span><span></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero / Landing -->
-  <section class="hero" id="inicio">
-    <div class="hero-content container">
-      <div class="hero-text">
-        <span class="hero-eyebrow">Pizzería artesanal · Bello, Antioquia</span>
-        <h1 class="hero-title">Sabor <span class="hero-accent">espacial</span>,<br>entrega a la Tierra</h1>
-        <p class="hero-sub">Pizza hecha a mano con ingredientes frescos. Elige tu sabor y pide a domicilio en minutos.</p>
-        <div class="hero-cta">
-          <a href="#menu" class="btn btn--red btn--lg">Ver Menú</a>
-          <a href="#carrito" class="btn btn--outline btn--lg" data-open-cart>Ver Pedido</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-glow"></div>
-        <img src="figma-images/logo-astronaut.jpeg" alt="The Brothers Pizza - Astronauta" class="hero-image">
-      </div>
-    </div>
-  </section>
-
-  <!-- Sedes -->
-  <section class="sedes" id="sedes">
-    <div class="container">
-      <h2 class="section-title">Nuestras Sedes</h2>
-      <div class="sedes-grid">
-        <article class="sede-card">
-          <h3 class="sede-name">La Cumbre</h3>
-          <p class="sede-phone">287 0326</p>
-          <p class="sede-phone">314 719 5796</p>
-        </article>
-        <article class="sede-card">
-          <h3 class="sede-name">Cabañas</h3>
-          <p class="sede-phone">495 1917</p>
-          <p class="sede-phone">304 586 0138</p>
-        </article>
-      </div>
-      <div class="social-section">
-        <p class="social-label">Síguenos</p>
-        <a href="https://www.instagram.com/thebrotherspizza_/?hl=en" target="_blank" rel="noopener" class="social-link">@TheBrothersPizza_</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Menú / Pedido -->
-  <section class="menu" id="menu">
-    <div class="container">
-      <h2 class="section-title">Menú</h2>
-      <div class="category-tabs" role="tablist" aria-label="Categorías">
-        <button class="tab-btn tab-btn--active" data-cat="pizzas" role="tab" aria-selected="true">Pizzas</button>
-        <button class="tab-btn" data-cat="platos" role="tab" aria-selected="false">Platos de la nave</button>
-        <button class="tab-btn" data-cat="bebidas" role="tab" aria-selected="false">Bebidas</button>
-        <button class="tab-btn" data-cat="todo" role="tab" aria-selected="false">Todo</button>
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__halftone"></div>
+        <span class="hero__cross hero__cross--1"></span>
+        <span class="hero__cross hero__cross--2"></span>
+        <span class="hero__cross hero__cross--3"></span>
+        <span class="hero__ghost">TBP</span>
       </div>
 
-      <div class="products-grid" id="products-grid"></div>
-    </div>
-  </section>
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow"><span class="eyebrow__dot"></span>Misión #001 · Bello, Antioquia</p>
 
-  <!-- Modal de personalización de pizza -->
-  <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
-    <div class="modal" id="product-modal" role="dialog" aria-modal="true" aria-label="Personalizar producto">
-      <button class="modal-close" id="modal-close" aria-label="Cerrar">&times;</button>
-      <div class="modal-body">
-        <div class="modal-header">
-          <div class="product-thumb" id="modal-thumb"></div>
-          <div class="product-info">
-            <h3 class="product-modal-name" id="modal-name"></h3>
-            <p class="product-modal-desc" id="modal-desc"></p>
-            <div class="product-modal-price" id="modal-price"></div>
+          <h1 class="hero__title">
+            <span class="hero__line">PIZZA</span>
+            <span class="hero__line hero__line--outline">DE OTRO</span>
+            <span class="hero__line hero__line--red">PLANETA<span class="hero__period">.</span></span>
+          </h1>
+
+          <p class="hero__sub">Pizza hecha a mano, ingredientes frescos y una tripulación que no para. Tres bases en Bello, diecisiete sabores y una sola misión: que la próxima rebanada sea la mejor.</p>
+
+          <div class="hero__cta">
+            <a href="pedido.html" class="btn btn--red btn--lg">
+              Pedir ahora
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="#mision" class="btn btn--ghost btn--lg">
+              Conócenos
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+            </a>
+          </div>
+
+          <div class="hero__meta">
+            <span><strong>17</strong> sabores</span>
+            <span><strong>4</strong> tamaños</span>
+            <span><strong>3</strong> bases</span>
+            <span><strong>5.798</strong> hermanos</span>
           </div>
         </div>
 
-        <div class="modal-options" id="modal-options">
-          <div class="option-group">
-            <label class="option-group-title">¿Cuántos sabores?</label>
-            <div class="flavor-mode" id="modal-flavor-mode" role="group" aria-label="Cantidad de sabores">
-              <button type="button" class="mode-btn mode-btn--active" data-mode="1">1 sabor<span>Toda la pizza</span></button>
-              <button type="button" class="mode-btn" data-mode="2">2 sabores<span>Mitad y mitad</span></button>
+        <div class="hero__art" data-reveal>
+          <div class="orbit" aria-hidden="true">
+            <svg viewBox="0 0 600 600" fill="none">
+              <circle cx="300" cy="300" r="236" stroke="#141414" stroke-width="1.2" stroke-dasharray="4 8" opacity=".45"/>
+              <circle cx="300" cy="300" r="196" stroke="#C0392B" stroke-width="1.4" opacity=".7"/>
+              <circle cx="300" cy="300" r="276" stroke="#141414" stroke-width="1" opacity=".2"/>
+              <circle cx="300" cy="64" r="7" fill="#C0392B"/>
+              <circle cx="536" cy="300" r="4" fill="#141414"/>
+              <circle cx="118" cy="438" r="5" fill="#C0392B"/>
+              <path d="M300 24v18M300 558v18M24 300h18M558 300h18" stroke="#141414" stroke-width="1.2" opacity=".5"/>
+            </svg>
+          </div>
+
+          <div class="patch">
+            <div class="patch__media">
+              <img src="figma-images/logo-astronaut.jpeg" alt="The Brothers Pizza: astronauta y pizza en una nave" width="1080" height="1080" fetchpriority="high">
             </div>
-            <p class="flavor-hint" id="modal-flavor-hint"></p>
-            <div class="flavor-options" id="modal-flavors"></div>
-            <div class="flavor-info" id="modal-flavor-info"></div>
-            <p class="flavor-note">Los sabores con <strong>+$3.000</strong> suman <strong>$3.000</strong> cada uno al precio final.</p>
+            <div class="patch__bar">BELLO · ANTIOQUIA · COLOMBIA</div>
+            <span class="sticker sticker--top">HECHO<br>EN BELLO</span>
+            <span class="sticker sticker--bottom">17<br>SABORES</span>
           </div>
-          <div class="option-group" id="modal-crust-group">
-            <label class="option-group-title">Borde de queso</label>
-            <button type="button" class="crust-toggle" id="modal-crust-toggle" aria-pressed="false">
-              <span class="crust-info">
-                <span class="crust-name" id="modal-crust-name"></span>
-                <span class="crust-desc">Borde relleno de queso</span>
-              </span>
-              <span class="crust-price" id="modal-crust-price"></span>
-              <span class="crust-check" aria-hidden="true"></span>
-            </button>
-          </div>
-        </div>
 
-        <div class="modal-summary">
-          <div class="summary-line summary-line--extra" id="modal-extra-line">
-            <span>Recargo por sabor(es):</span>
-            <span class="summary-value" id="modal-extra">$0</span>
+          <div class="hero__note">
+            <span class="mono">PATCH 001 / THE BROTHERS</span>
+            <span class="hero__note-line"></span>
+            <span class="mono">EST. BELLO</span>
           </div>
-          <div class="summary-line summary-line--extra" id="modal-crust-line">
-            <span>Borde de queso:</span>
-            <span class="summary-value" id="modal-crust-line-price">$0</span>
-          </div>
-          <div class="summary-line">
-            <span>Subtotal:</span>
-            <span class="summary-value" id="modal-subtotal">$0</span>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn btn--outline btn--full" id="modal-cancel-btn">Cancelar</button>
-          <button class="btn btn--red btn--full btn--lg" id="modal-add-btn">Agregar al Pedido</button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Carrito / Pedido -->
-  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
-    <div class="cart-drawer-inner">
-      <div class="cart-drawer-header">
-        <h3>Tu Pedido</h3>
-        <button class="cart-close" id="cart-close" aria-label="Cerrar pedido">&times;</button>
-      </div>
-
-      <div class="cart-items" id="cart-items"></div>
-
-      <div class="cart-footer">
-        <div class="cart-totals">
-          <div class="totals-line">
-            <span>Subtotal</span>
-            <span id="cart-subtotal">$0</span>
-          </div>
-          <div class="totals-line totals-line--total">
-            <span>Total</span>
-            <span id="cart-total">$0</span>
-          </div>
-        </div>
-        <div class="cart-actions">
-          <button class="btn btn--outline btn--full" id="cart-clear">Vaciar</button>
-          <button class="btn btn--red btn--full btn--lg" id="cart-checkout">Simular Pedido</button>
+      <div class="marquee marquee--red" aria-hidden="true">
+        <div class="marquee__track">
+          <span>PIZZA HECHA A MANO</span><span class="star">✦</span>
+          <span>INGREDIENTES FRESCOS</span><span class="star">✦</span>
+          <span>17 SABORES</span><span class="star">✦</span>
+          <span>3 BASES EN BELLO</span><span class="star">✦</span>
+          <span>DOMICILIOS</span><span class="star">✦</span>
+          <span>PIZZA HECHA A MANO</span><span class="star">✦</span>
+          <span>INGREDIENTES FRESCOS</span><span class="star">✦</span>
+          <span>17 SABORES</span><span class="star">✦</span>
+          <span>3 BASES EN BELLO</span><span class="star">✦</span>
+          <span>DOMICILIOS</span><span class="star">✦</span>
         </div>
       </div>
-    </div>
-  </aside>
+    </section>
 
-  <!-- Footer -->
+    <section class="mission section" id="mision">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><span>01</span> La misión</p>
+          <h2 class="section-title" data-reveal>NO HACEMOS<br><span class="text-red">PIZZA RÁPIDA.</span><br>HACEMOS PIZZA<br>DE VERDAD.</h2>
+        </div>
+
+        <div class="mission__grid">
+          <div class="mission__copy" data-reveal>
+            <p class="lead">Empezamos con una masa, un horno y las ganas de hacer algo distinto en Bello. Hoy somos tres bases, diecisiete sabores y una tripulación que no para de crecer.</p>
+            <p>Nada de atajos: ingredientes frescos, queso de verdad y el tiempo que cada pizza se merece. Si no está lista, no sale de la nave.</p>
+
+            <div class="stats">
+              <div class="stat"><span class="stat__num">17</span><span class="stat__label">sabores</span></div>
+              <div class="stat"><span class="stat__num">04</span><span class="stat__label">tamaños</span></div>
+              <div class="stat"><span class="stat__num">03</span><span class="stat__label">bases</span></div>
+              <div class="stat"><span class="stat__num">5.798</span><span class="stat__label">hermanos</span></div>
+            </div>
+          </div>
+
+          <aside class="ticket-card" data-reveal style="--delay:.1s">
+            <div class="ticket-card__top"><span class="mono">MISIÓN / 001</span><span class="mono">BELLO · CO</span></div>
+            <div class="ticket-card__body">
+              <p class="mono">OBJETIVO</p>
+              <p class="ticket-card__statement">Que cada pizza llegue caliente a tu órbita.</p>
+              <div class="ticket-card__stamp">APROBADO</div>
+            </div>
+            <div class="ticket-card__bottom"><span class="mono">THE BROTHERS PIZZA</span><span class="mono">TBP-001</span></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="offer section" id="que-vendemos">
+      <div class="container">
+        <div class="section-head section-head--row">
+          <div data-reveal>
+            <p class="section-kicker"><span>02</span> Qué vendemos</p>
+            <h2 class="section-title">PIZZA, PLATOS<br><span class="text-red">Y BEBIDAS.</span></h2>
+          </div>
+          <p class="section-intro" data-reveal style="--delay:.1s">Todo lo que sale de la nave: pizzas armadas a tu gusto, platos para compartir y bebidas para acompañar.</p>
+        </div>
+
+        <div class="offer-grid" data-reveal>
+          <article class="offer-card">
+            <div class="offer-card__media media">
+              <img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-1.jpg" alt="Pizza The Brothers" loading="lazy" decoding="async">
+              <div class="media__fallback"><span>THE BROTHERS</span></div>
+            </div>
+            <div class="offer-card__body">
+              <p class="mono">01 / PIZZAS</p>
+              <h3>4 TAMAÑOS.<br>17 SABORES.</h3>
+              <p>Personal, mediana, grande y extra grande. Borde de queso opcional.</p>
+              <span class="offer-card__price">Desde $22.000</span>
+            </div>
+          </article>
+
+          <article class="offer-card">
+            <div class="offer-card__media media">
+              <img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-6.jpg" alt="Burros al horno The Brothers" loading="lazy" decoding="async">
+              <div class="media__fallback"><span>THE BROTHERS</span></div>
+            </div>
+            <div class="offer-card__body">
+              <p class="mono">02 / PLATOS DE LA NAVE</p>
+              <h3>PARA<br>COMPARTIR.</h3>
+              <p>Burros, lasaña, quesadilla, maicitos y deditos de queso.</p>
+              <span class="offer-card__price">Desde $14.000</span>
+            </div>
+          </article>
+
+          <article class="offer-card">
+            <div class="offer-card__media media">
+              <img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-52.jpg" alt="Bebidas The Brothers" loading="lazy" decoding="async">
+              <div class="media__fallback"><span>THE BROTHERS</span></div>
+            </div>
+            <div class="offer-card__body">
+              <p class="mono">03 / BEBIDAS</p>
+              <h3>PARA<br>ACOMPAÑAR.</h3>
+              <p>Cervezas, jugos naturales, gaseosas, limonadas y sodas.</p>
+              <span class="offer-card__price">Desde $3.000</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="offer-cta" data-reveal>
+          <a href="pedido.html" class="btn btn--red btn--lg">
+            Ver la carta y pedir
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bases section" id="bases">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-kicker"><span>03</span> Las bases</p>
+          <h2 class="section-title" data-reveal>TRES BASES.<br><span class="text-red">UNA MISMA ÓRBITA.</span></h2>
+          <p class="section-intro" data-reveal style="--delay:.1s">La Cumbre, Castilla y El Ángel Bello. Pasa por la nave o pide a domicilio desde la carta online.</p>
+        </div>
+
+        <div class="bases-grid" data-reveal>
+          <article class="base-card">
+            <span class="base-card__num">01</span>
+            <h3 class="base-card__name">La Cumbre</h3>
+            <p class="base-card__note">Bello, Antioquia</p>
+            <a class="base-card__phone" href="tel:+573205006027">320 500 60 27</a>
+            <div class="base-card__links">
+              <a class="base-card__link" href="tel:+573205006027">Llamar</a>
+              <a class="base-card__link" href="https://www.google.com/maps/search/?api=1&query=The+Brothers+Pizza+Bello+La+Cumbre" target="_blank" rel="noopener">Mapa</a>
+            </div>
+          </article>
+
+          <article class="base-card">
+            <span class="base-card__num">02</span>
+            <h3 class="base-card__name">Castilla</h3>
+            <p class="base-card__note">Bello, Antioquia</p>
+            <a class="base-card__phone" href="tel:+573045860138">304 586 0138</a>
+            <div class="base-card__links">
+              <a class="base-card__link" href="tel:+573045860138">Llamar</a>
+              <a class="base-card__link" href="https://www.google.com/maps/search/?api=1&query=The+Brothers+Pizza+Bello+Castilla" target="_blank" rel="noopener">Mapa</a>
+            </div>
+          </article>
+
+          <article class="base-card">
+            <span class="base-card__num">03</span>
+            <h3 class="base-card__name">El Ángel Bello</h3>
+            <p class="base-card__note">Bello, Antioquia</p>
+            <span class="base-card__nophone">Sin teléfono directo</span>
+            <div class="base-card__links">
+              <a class="base-card__link" href="https://www.google.com/maps/search/?api=1&query=The+Brothers+Pizza+Bello+El+Angel" target="_blank" rel="noopener">Mapa</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="hours-strip">
+          <span class="mono">ABRIMOS TODOS LOS DÍAS</span>
+          <span class="hours-strip__dot"></span>
+          <span class="mono">HORARIO POR CONFIRMAR</span>
+          <span class="hours-strip__dot"></span>
+          <span class="mono">DOMICILIOS EN BELLO</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="community section" id="comunidad">
+      <div class="container">
+        <div class="section-head section-head--row">
+          <div data-reveal>
+            <p class="section-kicker"><span>04</span> La tripulación</p>
+            <h2 class="section-title"><span class="text-red">5.798</span><br>HERMANOS<br>EN ÓRBITA.</h2>
+          </div>
+          <div class="community__copy" data-reveal style="--delay:.1s">
+            <p>Síguenos en Instagram y súbete a la nave. Cada semana subimos fotos, sabores y noticias desde Bello.</p>
+            <a href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener" class="btn btn--ink">
+              @thebrotherspizza_
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="community-grid" data-reveal>
+          <a class="community-tile" href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">
+            <div class="media"><img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-1.jpg" alt="Pizza personal The Brothers" loading="lazy" decoding="async"><div class="media__fallback"><span>THE BROTHERS</span></div></div>
+            <span class="community-tile__label mono">01 / PERSONAL</span>
+          </a>
+          <a class="community-tile" href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">
+            <div class="media"><img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-2.jpg" alt="Pizza mediana The Brothers" loading="lazy" decoding="async"><div class="media__fallback"><span>THE BROTHERS</span></div></div>
+            <span class="community-tile__label mono">02 / MEDIANA</span>
+          </a>
+          <a class="community-tile" href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">
+            <div class="media"><img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-3.jpg" alt="Pizza grande The Brothers" loading="lazy" decoding="async"><div class="media__fallback"><span>THE BROTHERS</span></div></div>
+            <span class="community-tile__label mono">03 / GRANDE</span>
+          </a>
+          <a class="community-tile" href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">
+            <div class="media"><img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-4.jpg" alt="Pizza extra grande The Brothers" loading="lazy" decoding="async"><div class="media__fallback"><span>THE BROTHERS</span></div></div>
+            <span class="community-tile__label mono">04 / EXTRA GRANDE</span>
+          </a>
+          <a class="community-tile" href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">
+            <div class="media"><img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-6.jpg" alt="Burros al horno The Brothers" loading="lazy" decoding="async"><div class="media__fallback"><span>THE BROTHERS</span></div></div>
+            <span class="community-tile__label mono">05 / BURROS</span>
+          </a>
+          <a class="community-tile" href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">
+            <div class="media"><img src="https://api.thebrotherspizza.com.co/ventas/storage?file=productos/prd-8.jpg" alt="Lasagna The Brothers" loading="lazy" decoding="async"><div class="media__fallback"><span>THE BROTHERS</span></div></div>
+            <span class="community-tile__label mono">06 / LASAGNA</span>
+          </a>
+        </div>
+        <p class="fineprint">Fotos de referencia. Pronto, fotos reales de la nave.</p>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="marquee marquee--ink" aria-hidden="true">
+        <div class="marquee__track">
+          <span>THE BROTHERS PIZZA</span><span class="star">✦</span>
+          <span>PIZZA DE OTRO PLANETA</span><span class="star">✦</span>
+          <span>BELLO · ANTIOQUIA</span><span class="star">✦</span>
+          <span>THE BROTHERS PIZZA</span><span class="star">✦</span>
+          <span>PIZZA DE OTRO PLANETA</span><span class="star">✦</span>
+          <span>BELLO · ANTIOQUIA</span><span class="star">✦</span>
+        </div>
+      </div>
+      <div class="container closing__inner">
+        <p class="mono">¿LISTO PARA DESPEGAR?</p>
+        <h2 class="closing__title" data-reveal>PIDE TU<br><span class="text-red">PIZZA.</span></h2>
+        <div class="closing__cta">
+          <a href="pedido.html" class="btn btn--red btn--lg">Pedir ahora</a>
+          <a href="pedido.html" class="btn btn--ghost btn--lg">Ver la carta</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <img src="figma-images/logo-main.jpg" alt="The Brothers Pizza" class="footer-logo">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__mark"><img src="figma-images/logo-astronaut.jpeg" alt="" width="72" height="72"></span>
+        <p class="footer__wordmark">THE<br>BROTHERS<br><span>PIZZA</span></p>
       </div>
-      <div class="footer-contact">
-        <p><strong>La Cumbre:</strong> 287 0326 · 314 719 5796</p>
-        <p><strong>Cabañas:</strong> 495 1917 · 304 586 0138</p>
+      <div class="footer__cols">
+        <div>
+          <p class="footer__label mono">MISIÓN</p>
+          <a href="#mision">La misión</a>
+          <a href="#que-vendemos">Qué vendemos</a>
+          <a href="#bases">Las bases</a>
+          <a href="#comunidad">Comunidad</a>
+        </div>
+        <div>
+          <p class="footer__label mono">BASES</p>
+          <a href="tel:+573205006027">La Cumbre · 320 500 60 27</a>
+          <a href="tel:+573045860138">Castilla · 304 586 0138</a>
+          <a href="#bases">El Ángel Bello</a>
+        </div>
+        <div>
+          <p class="footer__label mono">CONTACTO</p>
+          <a href="https://www.instagram.com/thebrotherspizza_/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://wa.me/message/UO5VNBT4UWJ4D1" target="_blank" rel="noopener">Soporte WhatsApp</a>
+          <a href="pedido.html">Carta online</a>
+        </div>
+        <div>
+          <p class="footer__label mono">HORARIO</p>
+          <p>Abrimos todos los días</p>
+          <p class="fineprint">Horario por confirmar</p>
+        </div>
       </div>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/thebrotherspizza_/?hl=en" target="_blank" rel="noopener" class="footer-social-link">@TheBrothersPizza_</a>
-      </div>
-      <p class="footer-legal">Prototipo visual navegable · The Brothers Pizza · Bello, Antioquia, Colombia</p>
+    </div>
+    <div class="container footer__bottom">
+      <span class="mono">© 2026 THE BROTHERS PIZZA · BELLO, ANTIOQUIA</span>
+      <a href="#inicio" class="mono">VOLVER ARRIBA ↑</a>
     </div>
   </footer>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

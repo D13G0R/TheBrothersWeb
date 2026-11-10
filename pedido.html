@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedir — The Brothers Pizza | Elige tu órbita</title>
+  <meta name="description" content="Arma tu pizza, elige platos y bebidas, y haz tu pedido en The Brothers Pizza, Bello, Antioquia.">
+  <meta name="theme-color" content="#141414">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.thebrotherspizza.com.co">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pedido.css">
+</head>
+<body class="pedido-page">
+
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="pedido-header">
+    <div class="container pedido-header__inner">
+      <a href="index.html" class="brand" aria-label="The Brothers Pizza, volver al inicio">
+        <span class="brand__mark">
+          <img src="figma-images/logo-astronaut.jpeg" alt="" width="48" height="48">
+        </span>
+        <span class="brand__text"><span>THE BROTHERS</span><span>PIZZA</span></span>
+      </a>
+
+      <div class="pedido-header__actions">
+        <a href="index.html" class="pedido-back mono">← Inicio</a>
+        <button type="button" class="pedido-cart-btn" id="open-cart" aria-label="Ver mi pedido">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 5h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L22 8H7"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+          <span class="pedido-cart-btn__text">Pedido</span>
+          <span class="pedido-cart-btn__count" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container pedido-main">
+
+    <section class="pedido-view" id="view-menu">
+      <div class="pedido-hero">
+        <p class="section-kicker"><span>02</span> La carta</p>
+        <h1 class="pedido-title">ELIGE TU<br><span class="text-red">ÓRBITA.</span></h1>
+        <p class="pedido-sub">Pizza, platos de la nave y bebidas. Arma tu pizza a tu gusto o agrega algo para acompañar.</p>
+      </div>
+
+      <div class="pedido-filters" id="filters" role="tablist" aria-label="Categorías de la carta">
+        <button type="button" class="filter-btn is-active" data-filter="pizzas" role="tab" aria-selected="true">Pizza</button>
+        <button type="button" class="filter-btn" data-filter="platos" role="tab" aria-selected="false">Platos de la nave</button>
+        <button type="button" class="filter-btn" data-filter="bebidas" role="tab" aria-selected="false">Bebidas</button>
+      </div>
+
+      <div class="menu-grid" id="pizza-grid"></div>
+      <div class="menu-grid" id="product-grid" hidden></div>
+
+      <section class="flavor-reference">
+        <div class="flavor-reference__head">
+          <p class="section-kicker"><span>17</span> Sabores</p>
+          <h2 class="flavor-reference__title">ÍNDICE DE SABORES</h2>
+          <p class="flavor-reference__intro">Estos son los ingredientes de cada sabor. Al armar tu pizza eliges uno o dos y ves la descripción en el constructor.</p>
+        </div>
+        <div class="flavor-list" id="flavor-list"></div>
+      </section>
+    </section>
+
+    <section class="pedido-view" id="view-builder" hidden>
+      <div class="builder pedido-builder">
+        <div class="builder__head">
+          <button type="button" class="pedido-back" id="builder-back">← Volver a la carta</button>
+          <p class="mono" id="builder-kicker">ARMAR PIZZA</p>
+          <h2 id="builder-title">PIZZA MEDIANA</h2>
+          <p class="builder__meta" id="builder-meta">6 porciones · 30 cm · 17 sabores</p>
+        </div>
+
+        <div class="builder__grid">
+          <div class="builder__main">
+            <div class="builder__simple" id="builder-simple" hidden>
+              <div class="builder__simple-media media" id="builder-simple-media"></div>
+              <p id="builder-simple-desc"></p>
+            </div>
+
+            <div class="builder__options" id="builder-options">
+              <section class="builder__section">
+                <div class="builder__label"><span class="mono">01</span><h3>¿Cuántos sabores?</h3></div>
+                <div class="mode-switch" role="group" aria-label="Cantidad de sabores">
+                  <button type="button" class="mode-btn is-active" data-mode="1">1 sabor<span>Toda la pizza</span></button>
+                  <button type="button" class="mode-btn" data-mode="2">2 sabores<span>Mitad y mitad</span></button>
+                </div>
+                <p class="builder__hint" id="flavor-hint">Elige 1 sabor para toda la pizza.</p>
+                <div class="flavor-chips" id="flavor-chips"></div>
+                <div class="flavor-info" id="flavor-info"></div>
+              </section>
+
+              <section class="builder__section" id="crust-section">
+                <div class="builder__label"><span class="mono">02</span><h3>Borde de queso</h3></div>
+                <button type="button" class="crust" id="crust-toggle" aria-pressed="false">
+                  <span class="crust__info">
+                    <span class="crust__name" id="crust-name"></span>
+                    <span class="crust__desc">Borde relleno de queso</span>
+                  </span>
+                  <span class="crust__price" id="crust-price"></span>
+                  <span class="crust__check" aria-hidden="true"></span>
+                </button>
+              </section>
+            </div>
+
+            <section class="builder__section builder__section--qty">
+              <div class="builder__label"><span class="mono">03</span><h3>Cantidad</h3></div>
+              <div class="qty" id="qty">
+                <button type="button" class="qty__btn" data-dir="-1" aria-label="Menos">−</button>
+                <span class="qty__value" id="qty-value">1</span>
+                <button type="button" class="qty__btn" data-dir="1" aria-label="Más">+</button>
+              </div>
+            </section>
+          </div>
+
+          <aside class="builder__summary">
+            <div class="receipt">
+              <div class="receipt__top"><span class="mono">RESUMEN</span><span class="mono" id="receipt-code">TBP-001</span></div>
+              <div class="receipt__lines" id="receipt-lines"></div>
+              <div class="receipt__total"><span>Total</span><strong id="receipt-total">$0</strong></div>
+            </div>
+            <div class="builder__actions">
+              <button type="button" class="btn btn--red btn--full btn--lg" id="builder-add">AGREGAR AL PEDIDO</button>
+              <button type="button" class="btn btn--ghost btn--full" id="builder-add-more">AGREGAR ALGO MÁS</button>
+            </div>
+            <p class="fineprint">Los sabores con +$3.000 suman $3.000 cada uno. El borde de queso se cobra según el tamaño.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="pedido-view" id="view-cart" hidden>
+      <div class="pedido-cart">
+        <div class="pedido-cart__head">
+          <div>
+            <p class="section-kicker"><span>03</span> Tu pedido</p>
+            <h1 class="pedido-title pedido-title--sm">TU PEDIDO.</h1>
+          </div>
+          <button type="button" class="pedido-back" id="cart-back">← Seguir pidiendo</button>
+        </div>
+
+        <div class="pedido-cart__grid">
+          <div class="pedido-cart__items">
+            <div id="cart-items"></div>
+            <button type="button" class="btn btn--ghost btn--sm" id="cart-add-more">+ Agregar algo más</button>
+          </div>
+
+          <aside class="pedido-cart__checkout">
+            <form id="checkout-form" class="checkout-form" novalidate>
+              <p class="checkout-form__title mono">DATOS DEL PEDIDO</p>
+
+              <div class="checkout-row">
+                <label class="checkout-field">Nombre completo
+                  <input type="text" name="name" autocomplete="name" required>
+                </label>
+                <label class="checkout-field">Teléfono
+                  <input type="tel" name="phone" inputmode="tel" autocomplete="tel" required>
+                </label>
+              </div>
+
+              <div class="checkout-row">
+                <label class="checkout-field">Sede
+                  <select name="sede" required>
+                    <option value="La Cumbre">La Cumbre</option>
+                    <option value="Castilla">Castilla</option>
+                    <option value="El Ángel Bello">El Ángel Bello</option>
+                  </select>
+                </label>
+                <label class="checkout-field">Tipo de entrega
+                  <select name="orderType" id="order-type" required>
+                    <option value="Domicilio">Domicilio</option>
+                    <option value="Recoger en la base">Recoger en la base</option>
+                  </select>
+                </label>
+              </div>
+
+              <div id="address-fields">
+                <div class="checkout-row">
+                  <label class="checkout-field">Dirección
+                    <input type="text" name="address" autocomplete="street-address">
+                  </label>
+                  <label class="checkout-field">Barrio
+                    <input type="text" name="neighborhood">
+                  </label>
+                </div>
+                <label class="checkout-field">Referencia / indicaciones
+                  <input type="text" name="reference">
+                </label>
+              </div>
+
+              <label class="checkout-field">Método de pago
+                <select name="payment" id="payment" required>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                </select>
+              </label>
+
+              <label class="checkout-field">Notas
+                <textarea name="notes" rows="3" placeholder="Sin cebolla, timbre, torre, etc."></textarea>
+              </label>
+
+              <p class="checkout-note" id="payment-note" hidden>Pago por transferencia: te contactaremos para confirmar. (Demo)</p>
+
+              <div class="cart__totals">
+                <div class="cart__line"><span>Subtotal</span><span id="cart-subtotal">$0</span></div>
+                <div class="cart__line cart__line--total"><span>Total</span><span id="cart-total">$0</span></div>
+              </div>
+
+              <button type="submit" class="btn btn--red btn--full btn--lg" id="checkout-submit">HACER PEDIDO</button>
+              <p class="fineprint">Pedido de demostración. Al confirmar verás el seguimiento simulado.</p>
+            </form>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="pedido-view" id="view-tracking" hidden>
+      <div class="tracking">
+        <p class="section-kicker"><span>04</span> Seguimiento</p>
+        <h1 class="pedido-title">PEDIDO<br><span class="text-red">EN ÓRBITA.</span></h1>
+
+        <div class="tracking__success" id="tracking-message">Pedido realizado. Hazle seguimiento en esta sección o pide algo más.</div>
+
+        <div class="tracking__grid">
+          <div class="tracking__card">
+            <div class="tracking__code-wrap">
+              <span class="mono">CÓDIGO DE PEDIDO</span>
+              <strong class="tracking__code" id="tracking-code">TBP-000000</strong>
+            </div>
+            <div class="tracking__timeline" id="tracking-timeline"></div>
+            <p class="fineprint">Seguimiento demo: el estado avanza automáticamente.</p>
+          </div>
+
+          <aside class="tracking__summary" id="tracking-summary"></aside>
+        </div>
+
+        <div class="tracking__history" id="tracking-history" hidden>
+          <p class="mono">PEDIDOS ANTERIORES</p>
+          <div class="tracking__history-list" id="tracking-history-list"></div>
+        </div>
+
+        <div class="tracking__actions">
+          <button type="button" class="btn btn--red btn--lg" id="tracking-more">PEDIR ALGO MÁS</button>
+          <a class="btn btn--ghost btn--lg" href="index.html">VOLVER AL INICIO</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pedido-footer">
+    <div class="container pedido-footer__inner">
+      <span class="mono">THE BROTHERS PIZZA · BELLO, ANTIOQUIA</span>
+      <div class="pedido-footer__links">
+        <a class="mono" href="https://wa.me/message/UO5VNBT4UWJ4D1" target="_blank" rel="noopener">Soporte WhatsApp</a>
+        <a class="mono" href="index.html">Volver al inicio</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data.js" defer></script>
+  <script src="pedido.js" defer></script>
+</body>
+</html>
